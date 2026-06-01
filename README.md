@@ -128,7 +128,7 @@ By implementing this project, you showcase the **end‑to‑end AI infrastructur
    
 ### Step 1 – Clone the repository
 ```python
-git clone https://github.com/yourusername/orion-valley-predictive-maintenance.git
+git clone https://github.com/MohsenMostafa1/Supply-Chain-Risk-Intelligence.git
 cd orion-valley-predictive-maintenance
 ```
 
