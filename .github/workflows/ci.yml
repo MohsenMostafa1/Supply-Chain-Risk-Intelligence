@@ -12,23 +12,23 @@ jobs:
     
     services:
       zookeeper:
-        image: confluentinc/cp-zookeeper:latest
+        image: bitnami/zookeeper:latest
         ports:
           - 2181:2181
         env:
-          ZOOKEEPER_CLIENT_PORT: 2181
+          ALLOW_ANONYMOUS_LOGIN: yes
       kafka:
-        image: confluentinc/cp-kafka:latest
+        image: bitnami/kafka:latest
         ports:
           - 9092:9092
         env:
-          KAFKA_BROKER_ID: 1
-          KAFKA_ZOOKEEPER_CONNECT: localhost:2181
-          KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
-          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-          KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-          KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+          KAFKA_CFG_ZOOKEEPER_CONNECT: localhost:2181
+          KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+          KAFKA_CFG_LISTENERS: PLAINTEXT://0.0.0.0:9092
+          ALLOW_PLAINTEXT_LISTENER: yes
+          KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+          KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+          KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: 1
       postgres:
         image: postgres:14
         ports:
@@ -86,43 +86,29 @@ jobs:
         fail_ci_if_error: false
 
     # -----------------------------------------
-    # Debugging: check if Kafka container is running
+    # Wait for Kafka (Bitnami) to be ready
     # -----------------------------------------
-    - name: Check Kafka container status
+    - name: Wait for Kafka to be ready
       run: |
-        echo "Listing all containers:"
-        docker ps -a
-        echo "Kafka container logs:"
-        docker logs $(docker ps -aq --filter ancestor=confluentinc/cp-kafka:latest) || true
-      if: always()
-
-    # -----------------------------------------
-    # Wait for Kafka port to be open (using nc)
-    # -----------------------------------------
-    - name: Wait for Kafka port to be open
-      run: |
-        echo "Waiting for Kafka port 9092..."
-        timeout=120
-        start=$(date +%s)
-        while true; do
+        echo "Waiting for Kafka on 127.0.0.1:9092..."
+        for i in {1..60}; do
           if nc -z 127.0.0.1 9092 2>/dev/null; then
-            echo "Kafka port open. Waiting extra 10 seconds for broker stability..."
+            echo "Kafka port open. Waiting extra 10 seconds for broker metadata..."
             sleep 10
             break
           fi
-          now=$(date +%s)
-          if [ $((now - start)) -ge $timeout ]; then
-            echo "Timeout after ${timeout} seconds. Kafka never became ready."
-            exit 1
-          fi
-          echo "Port 9092 not ready, retrying in 2 seconds..."
+          echo "Attempt $i: not ready, sleeping 2s"
           sleep 2
         done
+        # Final check: create a test topic to confirm
+        docker run --rm --network host bitnami/kafka:latest kafka-topics.sh \
+          --bootstrap-server 127.0.0.1:9092 \
+          --list || exit 1
       if: always()
 
     - name: Create Kafka topic
       run: |
-        docker run --rm --network host confluentinc/cp-kafka:latest kafka-topics \
+        docker run --rm --network host bitnami/kafka:latest kafka-topics.sh \
           --create --topic iot-sensor-data \
           --bootstrap-server 127.0.0.1:9092 \
           --partitions 1 --replication-factor 1 || true
