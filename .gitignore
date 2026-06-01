@@ -1,11 +1,35 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.log
-*.pkl
-*.parquet
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+env/
 .env
-data/raw/*
-data/processed/*
+
+# IDE
+.vscode/
+.idea/
+
+# Spark & Hadoop temporary files
+/tmp/
+*.parquet
+*.checkpoint
+
+# Local data volumes
+postgres_data/
+mongo_data/
+grafana_data/
+
+# MLflow artifacts
+mlflow_artifacts/
 mlruns/
-*.db
-terraform/.terraform/
+
+# Logs
+*.log
+logs/
+
+# OS junk
+.DS_Store
+Thumbs.db
