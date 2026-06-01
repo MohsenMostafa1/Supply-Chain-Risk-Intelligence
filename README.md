@@ -214,3 +214,11 @@ docker-compose up -d   # ensure Kafka & PostgreSQL are running
 pytest tests/integration/
 ```
 The GitHub Actions CI pipeline (.github/workflows/ci.yml) will run the entire test suite on every push.
+
+### 🤝 Contributing
+
+This project is a showcase for technical vision. If you find a bug or want to improve the architecture, please open an issue or submit a pull request. We follow standard GitHub flow.
+
+### 📄 License
+
+This project is open‑source under the MIT License. You are free to use, modify, and distribute it for any purpose, including commercial Orion Valley client deployments.
