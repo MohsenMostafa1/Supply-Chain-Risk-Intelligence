@@ -1,13 +1,13 @@
 # supply-chain-risk-intelligence
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           DATA SOURCES (Simulated IoT)                       │
+│                           DATA SOURCES (Simulated IoT)                      │
 │                    Vehicle sensors, vibration, temperature, GPS             │
 └───────────────────────────────────┬─────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        INGESTION LAYER (Apache Kafka)                        │
+│                        INGESTION LAYER (Apache Kafka)                       │
 │                Topic: iot-sensor-data (JSON) – high throughput, low latency │
 └─────┬───────────────────────────────────────────────┬───────────────────────┘
       │                                               │
