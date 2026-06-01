@@ -111,45 +111,6 @@ By implementing this project, you showcase the **end‑to‑end AI infrastructur
 | **Containerisation**| Docker, Docker Compose, Kubernetes (Minikube for local dev)                 | Reproducible environments, easy scaling.                                                  |
 | **CI/CD**           | GitHub Actions                                                              | Automated testing on every push.                                                          |
 
----
-
-## 📁 Repository Structure
-predictive-maintenance/
-├── .github/workflows/ci.yml # CI pipeline
-├── data/
-│ └── generator/
-│ └── kafka_producer.py # Simulated IoT data source
-├── processing/
-│ ├── streaming/
-│ │ └── streaming_anomaly_job.py # Spark streaming job
-│ └── batch/
-│ └── hdfs_to_postgres.py # Batch ETL (Airflow calls)
-├── ml_pipeline/
-│ ├── train_isolation_forest.py # Training script with MLflow
-│ └── kubeflow/
-│ └── pipeline.py # Kubeflow pipeline definition
-├── orchestration/
-│ └── dags/
-│ └── batch_etl_dag.py # Airflow DAG
-├── serving/
-│ └── api/
-│ └── fastapi_app.py # Model serving API
-├── monitoring/
-│ └── prometheus.yml # Prometheus scrape config
-├── tests/
-│ ├── unit/ # Unit tests
-│ └── integration/ # Integration tests (Kafka + Spark)
-├── scripts/
-│ └── setup_test_data.sh # Seed PostgreSQL with test data
-├── docker-compose.yml # All services (Kafka, HDFS, Spark, etc.)
-├── hadoop.env # HDFS environment variables
-├── requirements.txt # Python dependencies
-├── pytest.ini # Test configuration
-├── Makefile # Common commands (up, down, test)
-└── README.md # This file
-
-
----
 
 ## 🚀 Getting Started (Local Development)
 
