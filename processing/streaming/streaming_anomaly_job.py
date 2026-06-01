@@ -1,3 +1,4 @@
+from anomaly_utils import score_anomaly
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col, window, avg, expr, to_timestamp
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, MapType
@@ -100,3 +101,6 @@ mongo_query = anomalies.writeStream \
 # Wait for both streams
 hdfs_query.awaitTermination()
 mongo_query.awaitTermination()
+
+if __name__ == "__main__":
+    # all Spark code here
