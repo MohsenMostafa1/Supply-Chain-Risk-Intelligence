@@ -120,6 +120,12 @@ By implementing this project, you showcase the **end‑to‑end AI infrastructur
 - **Java 11** (for Spark)
 - **Minikube** (optional, for Kubeflow production simulation)
 
+## Running Integration Tests Locally
+
+1. Start all services: `docker-compose up -d`
+2. Wait for Kafka to be ready (about 30 seconds).
+3. Run integration tests: `pytest tests/integration/ -v`
+   
 ### Step 1 – Clone the repository
 ```python
 git clone https://github.com/yourusername/orion-valley-predictive-maintenance.git
