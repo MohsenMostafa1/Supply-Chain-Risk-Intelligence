@@ -1,0 +1,3 @@
+# This is a minimal Kubeflow Pipelines YAML using the DSL in Python.
+# But you can also write it directly in Python using kfp SDK.
+# Below is a Python script that compiles to YAML.
